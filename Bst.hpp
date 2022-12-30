@@ -86,6 +86,19 @@ public:
             root->_hieght = 1 + max(height(root->_left), height(root->_right));
         }
     }
+
+    void PostOrderTraversal(Node *root, void (BST::*func)(Node *))
+    {
+        if (root == NULL)
+            return;
+        PostOrderTraversal(root->_left, func);
+        PostOrderTraversal(root->_right, func);
+        (this->*func)(root);
+    }
+    void print(Node *root)
+    {
+        std::cout << root->_key << std::endl;
+    }
 };
 
 #endif
