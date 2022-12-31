@@ -6,7 +6,7 @@
 template <class T, class Allocator = std::allocator<T> >
 struct Node
 {
-    T _key;
+    T *_key;
     Node *_left;
     Node *_right;
     Node *_parent;
@@ -16,14 +16,16 @@ struct Node
     Node(T const &value, Node *parent, Node *left, Node *right)
     {
         _hieght = 1;
-        _alloc.construct(&_key, value);
+        _key = _alloc.allocate(1);
+        _alloc.construct(_key, value);
         _parent = parent;
         _right = right;
         _left = left;
     }
     ~Node()
     {
-        _alloc.destroy(&_key);
+        _alloc.destroy(_key);
+        _alloc.deallocate(_key, 1);
     }
 };
 
@@ -75,7 +77,7 @@ public:
             root = new Node(value, parent, NULL, NULL);
             return;
         }
-        if (value < root->_key)
+        if (value < *root->_key)
         {
             insert(root->_left, value, root);
             root->_hieght = 1 + max(height(root->_left), height(root->_right));
@@ -97,7 +99,7 @@ public:
     }
     void print(Node *root)
     {
-        std::cout << root->_key << std::endl;
+        std::cout << *root->_key << std::endl;
     }
 };
 
