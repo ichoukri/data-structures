@@ -52,6 +52,11 @@ public:
         insert(_root, value, NULL);
     }
 
+    void remove(T const &value)
+    {
+        remove(value, _root, NULL);
+    }
+
     void print()
     {
         PostOrderTraversal(_root, &BST::print);
@@ -100,6 +105,56 @@ public:
     void print(Node *root)
     {
         std::cout << *root->_key << std::endl;
+    }
+
+    Node *find_min(Node *root)
+    {
+        if (root == NULL)
+            return NULL;
+        if (root->_left == NULL)
+            return root;
+        return find_min(root->_left);
+    }
+
+    Node *remove(T const &value, Node *&root, Node *parent)
+    {
+        Node *temp = root;
+        Node *successor;
+
+        if (root == NULL)
+            return NULL;
+        if (value < *root->_key)
+            return remove(value, root->_left, root);
+        else if (value > *root->_key)
+            return remove(value, root->_right, root);
+        else
+        {
+            if (root->_left == NULL && root->_right == NULL)
+                successor = NULL;
+            else if (root->_left == NULL)
+                successor = root->_right;
+            else if (root->_right == NULL)
+                successor = root->_left;
+            else
+            {
+                Node *min = find_min(root->_right);
+                swap(root->_key, min->_key);
+                return remove(value, root->_right, root);
+            }
+            if (_root == root)
+                _root = successor;
+            else if (parent->_left == root)
+                parent->_left = successor;
+            else
+                parent->_right = successor;
+            return temp;
+        }
+    }
+    void swap(T *a, T *b)
+    {
+        T temp = *a;
+        *a = *b;
+        *b = temp;
     }
 };
 
