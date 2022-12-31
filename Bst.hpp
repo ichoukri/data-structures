@@ -54,7 +54,13 @@ public:
 
     void remove(T const &value)
     {
-        remove(value, _root, NULL);
+        Node *temp = remove(value, _root, NULL);
+        if (temp != NULL)
+        {
+            delete temp;
+            temp = NULL;
+            update_height(_root);
+        }
     }
 
     void print()
@@ -62,7 +68,7 @@ public:
         PostOrderTraversal(_root, &BST::print);
     }
 
-    private:
+private:
     size_t height(Node *root)
     {
         if (root == NULL)
@@ -118,7 +124,7 @@ public:
 
     Node *remove(T const &value, Node *&root, Node *parent)
     {
-        Node *temp = root;
+        Node *temp = NULL;
         Node *successor;
 
         if (root == NULL)
@@ -129,6 +135,7 @@ public:
             return remove(value, root->_right, root);
         else
         {
+            temp = root;
             if (root->_left == NULL && root->_right == NULL)
                 successor = NULL;
             else if (root->_left == NULL)
@@ -147,8 +154,15 @@ public:
                 parent->_left = successor;
             else
                 parent->_right = successor;
-            return temp;
         }
+        return temp;
+    }
+
+    void update_height(Node *root)
+    {
+        if (root == NULL)
+            return;
+        root->_hieght = 1 + max(height(root->_left), height(root->_right));
     }
     void swap(T *a, T *b)
     {
