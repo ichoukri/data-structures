@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 NAME = container
 
-Header = Bst.hpp
+Header = Bst.hpp Avl.hpp
 
 SRCS = main.cpp
 
@@ -15,8 +15,8 @@ OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(Header) $(OBJS)
+$(NAME): $(OBJS) $(Header)
+	$(CC) $(CFLAGS) -o $(NAME)  $(OBJS)
 
 clean:
 	rm -f $(OBJS)
