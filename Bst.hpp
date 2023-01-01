@@ -32,7 +32,7 @@ struct Node
 template <class T, class Allocator = std::allocator<T> >
 class BST
 {
-private:
+protected:
     typedef struct Node<T, Allocator> Node;
     Node *_root;
 
