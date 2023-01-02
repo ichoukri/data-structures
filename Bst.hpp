@@ -65,7 +65,7 @@ public:
 
     void print()
     {
-        PostOrderTraversal(_root, &BST::print);
+        print2D(_root, 0);
     }
 
 protected:
@@ -172,6 +172,19 @@ protected:
         T temp = *a;
         *a = *b;
         *b = temp;
+    }
+
+    void print2D(Node *root, int space)
+    {
+        if (root == NULL)
+            return;
+        space += 8;
+        print2D(root->_right, space);
+        std::cout << std::endl;
+        for (int i = 8; i < space; i++)
+            std::cout << " ";
+        std::cout << *root->_key << std::endl;
+        print2D(root->_left, space);
     }
 };
 
