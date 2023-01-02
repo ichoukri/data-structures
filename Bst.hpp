@@ -157,6 +157,8 @@ protected:
                 parent->_left = successor;
             else
                 parent->_right = successor;
+            if (successor != NULL)
+                successor->_parent = parent;
         }
         return temp;
     }
