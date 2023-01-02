@@ -71,6 +71,8 @@ private:
     {
         Node *tmp = node->_left;
 
+        if (tmp->_right != NULL)
+            tmp->_right->_parent = node;
         node->_left = tmp->_right;
         tmp->_right = node;
         if (node->_parent != NULL)
