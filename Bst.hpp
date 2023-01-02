@@ -68,7 +68,7 @@ public:
         PostOrderTraversal(_root, &BST::print);
     }
 
-private:
+protected:
     size_t height(Node *root)
     {
         if (root == NULL)
@@ -81,23 +81,26 @@ private:
         return (a > b) ? a : b;
     }
 
-    void insert(Node *&root, T const &value, Node *parent)
+    Node *insert(Node *&root, T const &value, Node *parent)
     {
+        Node *tmp = NULL;
+
         if (root == NULL)
         {
             root = new Node(value, parent, NULL, NULL);
-            return;
+            return root;
         }
         if (value < *root->_key)
         {
-            insert(root->_left, value, root);
+            tmp = insert(root->_left, value, root);
             root->_hieght = 1 + max(height(root->_left), height(root->_right));
         }
-        else
+        else if (value > *root->_key)
         {
-            insert(root->_right, value, root);
+            tmp = insert(root->_right, value, root);
             root->_hieght = 1 + max(height(root->_left), height(root->_right));
         }
+        return tmp;
     }
 
     void PostOrderTraversal(Node *root, void (BST::*func)(Node *))
